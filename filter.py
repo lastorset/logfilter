@@ -62,6 +62,9 @@ def main():
         for line in filtered_lines(infile):
             unique_lines[line] += 1
 
+    if len(unique_lines) == 0:
+        return
+
     highest_frequency = max(unique_lines.values())
     chars_needed = math.ceil(math.log10(highest_frequency))
 
