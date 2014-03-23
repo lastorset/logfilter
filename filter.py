@@ -10,29 +10,29 @@ remove_this = [
     r'in \S+\.php on line \d+$', # PHP
 ]
 
-def preprocess_line(line):
+def preprocess_conf_line(line):
     # Simplistic for now
     # Possible improvements: escaping, regex
     line = line.strip().partition('#')[0]
     return line
 
+def read_conf(conf_file_name):
+    with open(conf_file_name) as conf:
+        for line in conf:
+            processed_line = preprocess_conf_line(line)
+            if len(processed_line) > 0:
+                ignore_these.append(processed_line)
 
 def remove_metadata(line):
     """
-    Remove metadata prepended by Apache and appended by PHP.
+    Remove metadata added by outside programs (such as Apache and PHP).
     """
     for pattern in remove_this:
         line = re.sub(pattern, '', line)
     return line
 
-def read_conf(conf_file_name):
-    with open(conf_file_name) as conf:
-        for line in conf:
-            processed_line = preprocess_line(line)
-            if len(processed_line) > 0:
-                ignore_these.append(processed_line)
-
 def debug_print():
+    # This was naively factored out, requires some modification to actually work
     try:
         print('bare line:   "%s"' % bare_line)
         print('ignore this: "%s"' % ignore_these[0])
