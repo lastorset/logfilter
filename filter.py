@@ -1,6 +1,7 @@
 #!/bin/python3
 import sys
 import re
+import collections
 
 ignore_these = []
 remove_this = [
@@ -42,12 +43,12 @@ def debug_print():
     except IndexError:
         print("String too long at %d" % i, file=sys.stderr)
 
-def filter_and_print(infile):
+def filtered_lines(infile):
     for line in infile:
         bare_line = remove_metadata(line).strip()
 
         if bare_line not in ignore_these:
-            print(bare_line)
+            yield bare_line
 
 def main():
     try:
@@ -55,8 +56,13 @@ def main():
     except FileNotFoundError:
         print('ignore.conf not found. Outputting all log lines', file=sys.stderr)
 
+    unique_lines = collections.defaultdict(int)
     with open(sys.argv[1]) as infile:
-        filter_and_print(infile)
+        for line in filtered_lines(infile):
+            unique_lines[line] += 1
+
+    for line, count in unique_lines.items():
+        print("%d occurrences: " % count, line)
 
 if __name__ == '__main__':
     main()
