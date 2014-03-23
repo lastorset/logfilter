@@ -61,7 +61,9 @@ def main():
         for line in filtered_lines(infile):
             unique_lines[line] += 1
 
-    for line, count in unique_lines.items():
+    sorted_lines = sorted(unique_lines.items())
+
+    for line, count in sorted_lines:
         print("%d occurrences: " % count, line)
 
 if __name__ == '__main__':
