@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import math
 import sys
 import re
 import collections
@@ -61,10 +62,13 @@ def main():
         for line in filtered_lines(infile):
             unique_lines[line] += 1
 
+    highest_frequency = max(unique_lines.values())
+    chars_needed = math.ceil(math.log10(highest_frequency))
+
     sorted_lines = sorted(unique_lines.items())
 
     for line, count in sorted_lines:
-        print("%d occurrences: " % count, line)
+        print(("%"+ str(chars_needed) +"d occurrences:") % count, line)
 
 if __name__ == '__main__':
     main()
