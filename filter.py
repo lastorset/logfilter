@@ -7,7 +7,7 @@ import collections
 ignore_these = []
 remove_this = [
     r'^(\[.*?\] ?)*',  # Apache prepend
-    r', referer: http:\S+$',  # Apache append
+    r', referer: https?:\S+$',  # Apache append
     r'in \S+\.php on line \d+$', # PHP
 ]
 
