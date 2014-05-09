@@ -55,7 +55,7 @@ def main():
     try:
         read_conf('ignore.conf')
     except FileNotFoundError:
-        print('ignore.conf not found. Outputting all log lines', file=sys.stderr)
+        pass
 
     unique_lines = collections.defaultdict(int)
     with open(sys.argv[1]) as infile:
